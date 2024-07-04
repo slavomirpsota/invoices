@@ -1,14 +1,10 @@
-package org.psota.invoices.repository;
+package org.psota.invoices.repository
 
-import java.util.UUID;
-import org.psota.invoices.entity.Company;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.support.QuerydslJpaRepository;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
-import org.springframework.stereotype.Repository;
+import org.psota.invoices.entity.Company
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.querydsl.QuerydslPredicateExecutor
+import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
-public interface CompanyRepo extends JpaRepository<Company, UUID>,
-    QuerydslPredicateExecutor<Company> {
-
-}
+interface CompanyRepo : JpaRepository<Company?, UUID?>, QuerydslPredicateExecutor<Company?>

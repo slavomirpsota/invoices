@@ -1,34 +1,29 @@
-package org.psota.invoices.entity;
+package org.psota.invoices.entity
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import java.util.List;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import jakarta.annotation.Nullable
+import jakarta.persistence.*
 
-@ToString(callSuper = true)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-@SuperBuilder(toBuilder = true)
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // for JPA
-@Getter
 @Entity
-public class Company extends BaseEntity {
+class Company(
+        @Column(nullable = false)
+        val name: String,
 
-  private String name;
-  @OneToOne(cascade = CascadeType.ALL)
-  private Address address;
-  private String regNo;
-  private String taxNo;
-  private String vatNo;
-  @ManyToOne(cascade = CascadeType.ALL)
-  private BankInfo bankInfo;
-  @OneToMany
-  private List<Invoice> invoices;
-}
+        @OneToOne(cascade = [CascadeType.ALL])
+        val address: Address,
+
+        @Column(nullable = false)
+        val regNo: String,
+
+        @Column(nullable = false)
+        val taxNo: String,
+
+        @Column(nullable = false)
+        val vatNo: String,
+
+        @ManyToOne(cascade = [CascadeType.ALL])
+        val bankInfo: BankInfo,
+
+        @OneToMany
+        @Nullable
+        val invoices: List<Invoice> = ArrayList()
+) : BaseEntity()

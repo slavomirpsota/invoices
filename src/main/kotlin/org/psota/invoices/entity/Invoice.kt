@@ -1,35 +1,28 @@
-package org.psota.invoices.entity;
+package org.psota.invoices.entity
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.time.LocalDate;
-import java.util.List;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.*
+import java.time.LocalDate
 
-@ToString(callSuper = true)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-@SuperBuilder(toBuilder = true)
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // for JPA
-@Getter
 @Entity
-public class Invoice extends BaseEntity {
+class Invoice(
+        @Column(nullable = false)
+        var invoiceNo: String? = null,
 
-  private String invoiceNo;
-  @ManyToOne
-  private Company company;
-  @ManyToOne
-  private Client client;
-  private LocalDate issuedOn;
-  private LocalDate dueOn;
-  @ManyToMany
-  private List<Product> products;
-  private Double quantity;
+        @ManyToOne(cascade = [CascadeType.ALL])
+        var company: Company? = null,
 
-}
+        @ManyToOne
+        var client: Client? = null,
+
+        @Column(nullable = true)
+        var issuedOn: LocalDate? = null,
+
+        @Column(nullable = true)
+        var dueOn: LocalDate? = null,
+
+        @ManyToMany
+        var products: List<Product>? = null,
+
+        @Column(nullable = true)
+        var quantity: Double? = null
+) : BaseEntity()

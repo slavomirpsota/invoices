@@ -1,13 +1,5 @@
-package org.psota.invoices.entity;
+package org.psota.invoices.entity
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@AllArgsConstructor
-@Getter
-public enum Unit {
-  MD("man/day");
-
-  private String value;
+enum class Unit(private val value: String) {
+    MD("man/day")
 }

@@ -1,11 +1,8 @@
-package org.psota.invoices.repository;
+package org.psota.invoices.repository
 
-import java.util.UUID;
-import org.psota.invoices.entity.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.psota.invoices.entity.Product
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.querydsl.QuerydslPredicateExecutor
+import java.util.*
 
-public interface ProductRepo extends JpaRepository<Product, UUID>,
-    QuerydslPredicateExecutor<Product> {
-
-}
+interface ProductRepo : JpaRepository<Product?, UUID?>, QuerydslPredicateExecutor<Product?>

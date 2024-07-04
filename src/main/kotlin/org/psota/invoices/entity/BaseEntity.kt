@@ -1,52 +1,35 @@
-package org.psota.invoices.entity;
+package org.psota.invoices.entity
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import java.time.Instant;
-import java.util.UUID;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import jakarta.persistence.Column
+import jakarta.persistence.Id
+import jakarta.persistence.MappedSuperclass
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
+import java.time.Instant
+import java.util.*
 
 /**
  * Base for all entities with random ID.
  */
-@ToString(callSuper = true)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-@SuperBuilder(toBuilder = true)
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // for JPA
-@Getter
+
 @MappedSuperclass
-public class BaseEntity {
+open class BaseEntity {
+    /**
+     * Artificial primary key.
+     */
+    @Id
+    val id: UUID = UUID.randomUUID()
 
-  /**
-   * Artificial primary key.
-   */
-  @EqualsAndHashCode.Include
-  @NonNull
-  @Builder.Default
-  @Id
-  private UUID id = UUID.randomUUID();
+    /**
+     * Creation time.
+     */
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
+    var createdAt: Instant? = null
 
-  /**
-   * Creation time.
-   */
-  @CreationTimestamp
-  @Column(updatable = false, nullable = false)
-  private Instant createdAt;
-
-  /**
-   * Last update time.
-   */
-  @UpdateTimestamp
-  private Instant updatedAt;
-
+    /**
+     * Last update time.
+     */
+    @UpdateTimestamp
+    val updatedAt: Instant? = null
 }
