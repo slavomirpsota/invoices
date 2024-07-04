@@ -1,11 +1,12 @@
 package org.psota.invoices.service
 
 import jakarta.transaction.Transactional
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.psota.invoices.dto.AddressDto
 import org.psota.invoices.dto.BankInfoDto
 import org.psota.invoices.dto.CompanyDto
+import org.psota.invoices.mapper.CompanyMapper
 import org.psota.invoices.repository.CompanyRepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,6 +21,9 @@ class CompanyServiceTest {
     @Autowired
     lateinit var repo: CompanyRepo
 
+    @Autowired
+    lateinit var mapper: CompanyMapper
+
     @Test
     fun test_createCompany() {
         //Given
@@ -31,9 +35,9 @@ class CompanyServiceTest {
         val savedCompanyDto = service.createCompany(companyDto)
 
         //Then
-        val savedCompany = repo.findById(savedCompanyDto.id!!).orElse(null)
-        assertEquals("Test Company", savedCompany?.name)
-        assertEquals(savedCompanyDto.name, savedCompany?.name)
+        val savedCompany = mapper.toDto(repo.findById(savedCompanyDto.id!!)
+                .orElse(null))
+        Assertions.assertThat(savedCompanyDto).usingRecursiveComparison().isEqualTo(savedCompany)
     }
 
     fun buildAddressDto(): AddressDto {
