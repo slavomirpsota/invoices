@@ -1,8 +1,14 @@
 package org.psota.invoices.dto
 
-class AddressDto {
-    val street: String? = null
-    val streetNo: String? = null
-    val city: String? = null
-    val zipCode: String? = null
-}
+import javax.validation.constraints.NotBlank
+
+data class AddressDto(
+        @field:NotBlank
+        val street: String,
+        @field:NotBlank
+        val streetNo: String,
+        @field:NotBlank
+        val city: String,
+        @field:NotBlank
+        val zipCode: String,
+)

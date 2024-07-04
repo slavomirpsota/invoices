@@ -1,9 +1,16 @@
 package org.psota.invoices.dto
 
-class BankInfoDto {
-    private val accountNo: String? = null
-    private val iban: String? = null
-    private val bankName: String? = null
-    private val swiftCode: String? = null
-    private val paymentMethod: String? = null
-}
+import javax.validation.constraints.NotBlank
+
+data class BankInfoDto(
+        @field:NotBlank
+        var accountNo: String,
+        @field:NotBlank
+        var iban: String,
+        @field:NotBlank
+        var bankName: String,
+        @field:NotBlank
+        var swiftCode: String,
+        @field:NotBlank
+        var paymentMethod: String,
+)

@@ -1,14 +1,13 @@
 package org.psota.invoices.repository
 
 import jakarta.transaction.Transactional
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.jeasy.random.EasyRandom
 import org.junit.jupiter.api.BeforeEach
 import org.psota.invoices.entity.*
 import org.psota.invoices.entity.Unit
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import java.util.*
 import kotlin.test.Test
 
 @DataJpaTest
@@ -55,7 +54,7 @@ class PersistenceTests {
         val invoice = buildInvoice(company, client, product)
 
         val savedProduct = productRepo!!.save(product)
-        val savedClient = clientRepo!!.save(client);
+        val savedClient = clientRepo!!.save(client)
 
         invoice.client = savedClient
         invoice.products = listOf(savedProduct)

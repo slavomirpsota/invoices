@@ -19,6 +19,7 @@
     <java.version>17</java.version>
     <kotlin.version>1.9.24</kotlin.version>
     <querydsl.version>5.0.0</querydsl.version>
+    <mapstruct.version>1.6.0.Beta1</mapstruct.version>
   </properties>
   <dependencies>
     <dependency>
@@ -145,7 +146,12 @@
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
-      <version>1.6.0.Beta1</version>
+      <version>${mapstruct.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.1.Final</version>
     </dependency>
 
   </dependencies>
@@ -204,6 +210,11 @@
                   <artifactId>querydsl-apt</artifactId>
                   <version>${querydsl.version}</version>
                   <classifier>jakarta</classifier>
+                </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>org.mapstruct</groupId>
+                  <artifactId>mapstruct-processor</artifactId>
+                  <version>${mapstruct.version}</version>
                 </annotationProcessorPath>
               </annotationProcessorPaths>
             </configuration>

@@ -1,13 +1,23 @@
 package org.psota.invoices.dto
 
 import org.psota.invoices.entity.Invoice
+import java.util.*
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
-class CompanyDto {
-    val name: String? = null
-    val address: AddressDto? = null
-    val regNo: String? = null
-    val taxNo: String? = null
-    val vatNo: String? = null
-    val bankInfo: BankInfoDto? = null
-    val invoices: List<Invoice>? = null
-}
+data class CompanyDto(
+        var id: UUID?,
+        @field:NotBlank
+        var name: String,
+        @field:NotNull
+        var address: AddressDto,
+        @field:NotBlank
+        var regNo: String,
+        @field:NotBlank
+        var taxNo: String,
+        @field:NotBlank
+        var vatNo: String,
+        @field:NotNull
+        var bankInfo: BankInfoDto,
+        var invoices: List<Invoice>?
+)

@@ -6,5 +6,7 @@ import org.psota.invoices.entity.Company
 
 @Mapper(componentModel = "spring")
 interface CompanyMapper {
-    fun toDto(`in`: Company?): CompanyDto?
+    fun toDto(entity: Company): CompanyDto
+    fun toEntity(dto: CompanyDto): Company
+
 }
