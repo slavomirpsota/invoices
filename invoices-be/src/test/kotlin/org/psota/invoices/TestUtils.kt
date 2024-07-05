@@ -2,6 +2,7 @@ package org.psota.invoices
 
 import org.psota.invoices.dto.AddressDto
 import org.psota.invoices.dto.BankInfoDto
+import org.psota.invoices.dto.ClientDto
 import org.psota.invoices.dto.CompanyDto
 import org.psota.invoices.entity.*
 import org.psota.invoices.entity.Unit
@@ -98,6 +99,16 @@ object TestUtils {
                 bankName = "bankName",
                 swiftCode = "swiftCode",
                 ""
+        )
+    }
+
+    fun buildClientDto(): ClientDto {
+        return ClientDto(
+            null,
+            address = buildAddressDto(),
+            regNo = "regNo",
+            taxNo = "taxNo",
+            vatNo = "vatNo"
         )
     }
 }
