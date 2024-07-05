@@ -8,11 +8,11 @@ import jakarta.persistence.OneToOne
 @Entity
 class Client(
         @OneToOne(cascade = [CascadeType.ALL])
-        val address: Address,
+        var address: Address,
         @Column(nullable = false)
-        val regNo: String,
+        var regNo: String,
         @Column(nullable = false)
-        val taxNo: String,
+        var taxNo: String,
         @Column(nullable = false)
-        val vatNo: String
+        var vatNo: String
 ) : BaseEntity()
