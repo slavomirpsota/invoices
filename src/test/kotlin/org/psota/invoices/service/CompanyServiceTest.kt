@@ -3,9 +3,7 @@ package org.psota.invoices.service
 import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
-import org.psota.invoices.dto.AddressDto
-import org.psota.invoices.dto.BankInfoDto
-import org.psota.invoices.dto.CompanyDto
+import org.psota.invoices.TestUtils
 import org.psota.invoices.mapper.CompanyMapper
 import org.psota.invoices.repository.CompanyRepo
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,9 +25,7 @@ class CompanyServiceTest {
     @Test
     fun test_createCompany() {
         //Given
-        val addressDto = buildAddressDto()
-        val bankInfoDto = buildBankInfoDto()
-        val companyDto = buildCompanyDto(addressDto, bankInfoDto)
+        val companyDto = TestUtils.buildCompanyDto()
 
         //When
         val savedCompanyDto = service.createCompany(companyDto)
@@ -40,36 +36,54 @@ class CompanyServiceTest {
         Assertions.assertThat(savedCompanyDto).usingRecursiveComparison().isEqualTo(savedCompany)
     }
 
-    fun buildAddressDto(): AddressDto {
-        return AddressDto(
-                streetNo = "streetNo",
-                street = "street",
-                city = "city",
-                zipCode = "zipCode"
-        )
+    @Test
+    fun test_updateCompany() {
+        //Given
+        val company = TestUtils.buildCompany()
+        val companyUpdateDto = TestUtils.buildCompanyDto()
+
+        val saved = repo.save(company)
+
+        companyUpdateDto.name = "Updated company name"
+        companyUpdateDto.id = saved.id
+
+        //When
+        val updated = service.updateCompany(companyUpdateDto)
+
+        //Then
+        Assertions.assertThat(updated.name).isEqualTo(companyUpdateDto.name)
     }
 
-    fun buildCompanyDto(address: AddressDto, bankInfo: BankInfoDto): CompanyDto {
-        return CompanyDto(
-                null,
-                name = "My Company",
-                address = address,
-                regNo = "regNo",
-                taxNo = "taxNo",
-                vatNo = "vatNo",
-                bankInfo = bankInfo,
-                listOf()
-        )
+    @Test
+    fun test_getCompanies() {
+        //Given
+        val company1 = TestUtils.buildCompany()
+        val company2 = TestUtils.buildCompany()
+        company1.name = "Company1"
+        company2.name = "Company2"
+        repo.saveAll(listOf(company1, company2))
+
+        //When
+        val companies = service.getCompany(listOf())
+
+        //Then
+        Assertions.assertThat(companies.size).isEqualTo(2)
+        Assertions.assertThat(companies.map { it.name }).containsExactlyInAnyOrder("Company1", "Company2")
+
     }
 
-    fun buildBankInfoDto(): BankInfoDto {
-        return BankInfoDto(
-                accountNo = "accountNo",
-                iban = "iban",
-                bankName = "bankName",
-                swiftCode = "swiftCode",
-                ""
-        )
+    @Test
+    fun test_deleteCompany() {
+        //Given
+        val company = TestUtils.buildCompany()
+
+        val saved = repo.save(company)
+
+        //When
+        val deleted = service.deleteCompany(saved.id)
+
+        //Then
+        Assertions.assertThat(deleted).isEqualTo(saved.id)
     }
 
 }

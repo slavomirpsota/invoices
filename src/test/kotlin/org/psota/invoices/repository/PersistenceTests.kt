@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions.assertThat
 import org.jeasy.random.EasyRandom
 import org.junit.jupiter.api.BeforeEach
-import org.psota.invoices.entity.*
-import org.psota.invoices.entity.Unit
+import org.psota.invoices.TestUtils
+import org.psota.invoices.entity.Client
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import kotlin.test.Test
@@ -46,12 +46,10 @@ class PersistenceTests {
 
     @Test
     fun test_persistInvoice() {
-        val address = buildAddress()
-        val bankInfo = buildBankInfo()
-        val company = buildCompany(address, bankInfo)
-        val client = buildClient(address)
-        val product = buildProduct()
-        val invoice = buildInvoice(company, client, product)
+        val company = TestUtils.buildCompany()
+        val client = TestUtils.buildClient()
+        val product = TestUtils.buildProduct()
+        val invoice = TestUtils.buildInvoice(company, client, product)
 
         val savedProduct = productRepo!!.save(product)
         val savedClient = clientRepo!!.save(client)
@@ -65,9 +63,7 @@ class PersistenceTests {
 
     @Test
     fun test_persistCompany() {
-        val address = buildAddress()
-        val bankInfo = buildBankInfo()
-        val company = buildCompany(address, bankInfo)
+        val company = TestUtils.buildCompany()
 
         val saved = companyRepo!!.save(company)
 
@@ -76,72 +72,10 @@ class PersistenceTests {
 
     @Test
     fun test_persistProduct() {
-        val product = buildProduct()
+        val product = TestUtils.buildProduct()
 
         val saved = productRepo!!.save(product)
 
         assertThat(product).usingRecursiveComparison().isEqualTo(saved)
-    }
-
-    fun buildInvoice(company: Company,
-                     client: Client,
-                     product: Product): Invoice {
-        return Invoice(
-                invoiceNo = "20240601",
-                company = company,
-                client = client,
-                issuedOn = null,
-                dueOn = null,
-                products = listOf(product),
-                quantity = null
-        )
-    }
-
-    fun buildClient(address: Address): Client {
-        return Client(
-                address = address,
-                regNo = "regNo",
-                taxNo = "taxNo",
-                vatNo = "vatNo"
-        )
-    }
-
-    fun buildAddress(): Address {
-        return Address(
-                streetNo = "streetNo",
-                street = "street",
-                city = "city",
-                zipCode = "zipCode"
-        )
-    }
-
-    fun buildCompany(address: Address, bankInfo: BankInfo): Company {
-        return Company(
-                name = "My Company",
-                address = address,
-                regNo = "regNo",
-                taxNo = "taxNo",
-                vatNo = "vatNo",
-                bankInfo = bankInfo,
-        )
-    }
-
-    fun buildBankInfo(): BankInfo {
-        return BankInfo(
-                accountNo = "accountNo",
-                iban = "iban",
-                bankName = "bankName",
-                swiftCode = "swiftCode",
-                ""
-        )
-    }
-
-    fun buildProduct(): Product {
-        return Product(
-                name = "name",
-                description = "",
-                unit = Unit.MD,
-                unitPrice = 1.00
-        )
     }
 }
