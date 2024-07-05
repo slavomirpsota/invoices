@@ -16,15 +16,8 @@ class CompanyService(
 ) {
     fun createCompany(dto: CompanyDto): CompanyDto {
         Validator.validate(dto)
-        val toEntity = mapper.toEntity(dto)
-        val saved = repo.save(toEntity)
+        val saved = repo.save(mapper.toEntity(dto))
         return mapper.toDto(saved)
-    }
-
-    fun createCompany(dtos: List<CompanyDto>): List<CompanyDto> {
-        dtos.forEach(Validator::validate)
-        val saved = repo.saveAll(mapper.toEntityList(dtos))
-        return mapper.toDtoList(saved)
     }
 
     fun updateCompany(dto: CompanyDto): CompanyDto {
